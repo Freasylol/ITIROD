@@ -11,6 +11,8 @@ TickTack - это менеджер задач, который позволяет
 5. Разбиение задач на группы
 6. Показ статистики выполненных задач за неделю
 
+## Модели данных:
+
 ### TaskGroup
 |Field Name | Type  
 |-----------|:-----------:|
@@ -24,9 +26,9 @@ TickTack - это менеджер задач, который позволяет
 | Id | PK |
 | Name | VARCHAR(64) |
 | Description | VARCHAR(255) |
-| Priority | Number |
-| isFavorite | Number |
-| isCompleted | Number |
+| Priority | Integer |
+| isFavorite | Integer |
+| isCompleted | Integer |
 | groupId | FK |
 
 ### User
