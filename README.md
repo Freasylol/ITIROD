@@ -16,28 +16,28 @@ TickTack - это менеджер задач, который позволяет
 ### TaskGroup
 |Field Name | Type  
 |-----------|:-----------:|
-| Id | PK |
-| Name | VARCHAR(64) |
+| id | PK |
+| name | text |
 
 
 ### Task
 |Field Name | Type  
 |-----------|:-----------:|
-| Id | PK |
-| Name | VARCHAR(64) |
-| Description | VARCHAR(255) |
-| Priority | Integer |
-| isFavorite | Integer |
-| isCompleted | Integer |
-| taskGroupId | FK |
+| id | PK |
+| name | text |
+| description | text |
+| priority | Integer |
+| is_favorite | Integer |
+| is_completed | Integer |
+| task_group_id | FK |
 
 ### User
 |Field Name | Type  
 |-----------|:-----------:|
-| Id | PK |
-| Username | VARCHAR(64) |
-| Password | VARCHAR(64) |
-| Email | VARCHAR(64) |
+| id | PK |
+| username | text |
+| password | text |
+| email | text |
 
 ## Главная страница сайта
 ![Главная страница сайта](./Lab2/mainPage.jpg "Главная страница сайта")
