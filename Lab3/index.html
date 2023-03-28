@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TickTack</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">  
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="container">
+    <aside class="sidebar">
+      <img class="sidebar__user-icon" src="./img/user-icon.png" width="40" height="40" alt="">
+      <section class="sidebar-predefined">
+        <p class="sidebar__header">Predefined lists</p>
+        <div class="sidebar__element">
+          <img class="sidebar__element-icon" src="./img/today-icon.png" alt="">
+          <div class="sidebar__element-name">Today</div>
+        </div>
+        <div class="sidebar__element">
+          <img class="sidebar__element-icon" src="./img/nextWeek-icon.png" alt="">
+          <div class="sidebar__element-name">Next 7 days</div>
+        </div>
+        <div class="sidebar__element">
+          <img class="sidebar__element-icon" src="./img/inbox-icon.png" alt="">
+          <div class="sidebar__element-name">Inbox</div>
+        </div>
+      </section>
+      <section class="sidebar__user-list">
+        <p class="sidebar__header">User lists</p>
+        <div class="sidebar__element">
+          <img class="sidebar__element-icon" src="./img/userList-icon.png" alt="">
+          <div class="sidebar__element-name">Homework</div>
+        </div>
+        <div class="sidebar__element">
+          <img class="sidebar__element-icon" src="./img/userList-icon.png" alt="">
+          <div class="sidebar__element-name">User list</div>
+        </div>
+      </section>
+      </section>
+      <section class="sidebar-filteredCategories">
+        <p class="sidebar__header">Filtered Categories</p>
+        <div class="sidebar__element">
+          <img class="sidebar__element-icon" src="./img/completed-icon.png" alt="">
+          <div class="sidebar__element-name">Completed</div>
+        </div>
+        <div class="sidebar__element">
+          <img class="sidebar__element-icon" src="./img/weekSumary-icon.png" alt="">
+          <div class="sidebar__element-name">Week summary</div>
+        </div>
+        <div class="sidebar__element">
+          <img class="sidebar__element-icon" src="./img/favorite-icon.png" alt="">
+          <div class="sidebar__element-name">Favorite</div>
+        </div>
+      </section>
+      
+    </aside>
+    <section class="tasks">
+      <div class="tasks__header">
+        <div class="tasks__header-name">TickTack</div>
+        <img class="tasks__header-logo"  src="./img/logo-icon.jpg"height=30>
+      </div>
+      <div class="tasks__add-task">
+        <div class="add-task-rectangle">
+          <div class="tasks__add-task-text">
+            Add task
+          </div>
+        </div>
+      </div>
+      <div class="tasks-list">
+        <div class="task-list__element">
+            <div class="task-list__rectangle">
+              <div class="task-list__rectangle-inner">
+                <div class="task-list__circle"></div>
+                <div class="task-list__name">
+                  Typical task
+                </div>
+                <img src="./img/options-icon.png" height="30" alt="" class="task-list__options">
+              </div>
+              
+            </div>
+        </div>
+        <div class="task-list__element">
+          <div class="task-list__rectangle">
+            <div class="task-list__rectangle-inner">
+              <div class="task-list__circle_high-priority"></div>
+              <div class="task-list__name">
+                High priority
+              </div>
+              <img src="./img/options-icon.png" height="30" alt="" class="task-list__options">
+            </div>
+            
+          </div>
+        </div>
+        <div class="task-list__element">
+          <div class="task-list__rectangle">
+            <div class="task-list__rectangle-inner">
+              <div class="task-list__circle_low-priority"></div>
+              <div class="task-list__name">
+                Low priority
+              </div>
+              <img src="./img/options-icon.png" height="30" alt="" class="task-list__options">
+            </div>
+            
+          </div>
+        </div>
+        <div class="task-list__element">
+          <div class="task-list__rectangle">
+            <div class="task-list__rectangle-inner">
+              <div class="task-list__circle_medium-priority"></div>
+              <div class="task-list__name">
+                Medium priority
+              </div>
+              <img src="./img/options-icon.png" height="30" alt="" class="task-list__options">
+            </div>
+            
+          </div>
+        </div>
+      
+      </div>
+    </section>
+  </main>
+</body>
+</html>

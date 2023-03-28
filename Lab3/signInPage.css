@@ -1,0 +1,169 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1440px;
+
+  height: 100vh;
+}
+
+.sign-in {
+  height: 93%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ticktack-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding-top: 20px;
+}
+
+.ticktack-header__name {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.sign-in__form {
+  width: 42%;
+  height: 470px;
+
+  border-radius: 30px; 
+  border: 3px solid #E7E7E7;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  position: relative;
+}
+
+.sign-in-button {
+  width: 250px;
+  height: 50px;
+
+  outline: none;
+  border: none;
+  background-color: #67B3FF;
+  border-radius: 60px; 
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  margin-top: 120px;
+}
+
+.sign-in-button__text {
+  color: #FFF;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.sign-in__form-header {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: 0em;
+  text-align: left;
+  padding-top: 35px;
+  padding-bottom: 30px;
+}
+
+.sign-in__form-item-input {
+  background-color: #F6F8FA;
+  border: 1px solid #7E7E7E;
+  outline: none;
+  outline-offset: 0;
+  border-radius: 60px;
+  font-size: 18px;
+
+  width: 100%;
+  height: 45px;
+}
+
+.sign-in__form-item-label {
+  margin-bottom: 5px;
+}
+
+.sign-in__form-item {
+  margin-bottom: 10px;
+  width: 85%;
+}
+
+.sign-in__form-hints {
+  margin-top: 20px;
+  margin-bottom: 20px; 
+  
+  position: absolute;
+  right: 11%;
+  bottom: 120px;
+
+}
+
+.sign-in__form-hint:nth-child(1) {
+  margin-bottom: 10px;
+}
+
+/* .sign-in__form-item:nth-child(3) {
+  position: relative;
+} */
+
+.sign-in__form-hint {
+  color: #67B3FF;
+}
+
+@media screen and (max-width: 900px) {
+  .sign-in-form {
+    width: 50%;
+  }
+
+  .ticktack__header {
+    font-size: 18px;
+  }
+
+  .sign-in__form-item-label {
+    font-size: 16px;
+  }
+
+  .sign-in-button__text-text {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .sign-in-form {
+    width: 65%;
+  }
+
+  .ticktack__header {
+    font-size: 16px;
+  }
+
+  .sign-in__form-item-label {
+    font-size: 14px;
+  }
+
+  .sign-in-button__text-text {
+    font-size: 14px;
+  }
+
+  .sign-in-button__text {
+    width: 70%;
+  }
+}
