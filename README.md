@@ -27,8 +27,8 @@ TickTack - это менеджер задач, который позволяет
 | name | text |
 | description | text |
 | priority | Integer |
-| is_favorite | Integer |
-| is_completed | Integer |
+| is_favorite | Boolean |
+| is_completed | Boolean |
 | task_group_id | FK |
 
 ### User
