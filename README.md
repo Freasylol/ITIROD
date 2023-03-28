@@ -29,12 +29,13 @@ TickTack - это менеджер задач, который позволяет
 | Priority | Integer |
 | isFavorite | Integer |
 | isCompleted | Integer |
-| groupId | FK |
+| taskGroupId | FK |
 
 ### User
 |Field Name | Type  
 |-----------|:-----------:|
 | Id | PK |
+| Username | VARCHAR(64) |
 | Password | VARCHAR(64) |
 | Email | VARCHAR(64) |
 
