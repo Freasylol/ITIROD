@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SignUp page</title>
+  <link rel="stylesheet" href="./signUpPage.css">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">  
+</head>
+<body>
+  <main class="container">
+    <header class="ticktack-header">
+      <div class="ticktack-header__name">TickTack</div>
+      <img class="ticktack-header__logo"  src="./img/logo-icon.jpg"height=30>
+    </header>
+    <div class="sign-up">
+      <form class="sign-up__form" onsubmit="return checkForm()">
+        <div class="sign-up__form-header">
+          Let’s create your user account
+        </div>
+        <div class="sign-up__form-item">
+          <div class="sign-up__form-item-label">Username</div>
+          <input type="text" class="sign-up__form-item-input" required></input>
+        </div>
+        <div class="sign-up__form-item">
+          <div class="sign-up__form-item-label">Email</div>
+          <input type="text" class="sign-up__form-item-input" pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" required></input>
+        </div>
+        <div class="sign-up__form-item">
+          <div class="sign-up__form-item-label">Password</div>
+          <input type="text" class="sign-up__form-item-input password-input" required></input>
+        </div>
+        <div class="sign-up__form-item">
+          <div class="sign-up__form-item-label">Confirm Password</div>
+          <input type="text" class="sign-up__form-item-input confirm-password-input" required></input>
+        </div>
+        <button type="submit" class="sign-up-button">
+          <div class="sign-up-button__text">
+            Create account
+          </div>
+        </button>
+      </form>
+    </div>
+  </main>
+  <script src="./signUpPage.js"></script>
+</body>
+</html>

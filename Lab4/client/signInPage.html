@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SignIn page</title>
+  <link rel="stylesheet" href="./signInPage.css">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">  
+</head>
+<body>
+  <main class="container">
+      <header class="ticktack-header">
+      <div class="ticktack-header__name">TickTack</div>
+      <img class="ticktack-header__logo"  src="./img/logo-icon.jpg"height=30>
+    </header>
+    <div class="sign-in">
+      <form class="sign-in__form">
+        <div class="sign-in__form-header">
+          Sign in your account
+        </div>
+        <div class="sign-in__form-item">
+          <div class="sign-in__form-item-label">Email</div>
+          <input type="text" class="sign-in__form-item-input" pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" required></input>
+        </div>
+        <div class="sign-in__form-item">
+          <div class="sign-in__form-item-label">Password</div>
+          <input type="text" class="sign-in__form-item-input" required></input>
+        </div>
+        <div class="sign-in__form-hints">
+
+          <div class="sign-in__form-hint">
+            Forgot your password?
+          </div>
+          <div class="sign-in__form-hint">
+            New to TickTack?<br>
+            Create an acccount
+          </div>  
+          
+        </div>
+        <button class="sign-in-button">
+          <div class="sign-in-button__text">
+            Sign in
+          </div>
+        </button>
+      </form>
+    </div>
+  </main>
+  
+</body>
+</html>

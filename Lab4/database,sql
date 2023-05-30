@@ -1,0 +1,28 @@
+CREATE TABLE task_group(
+  id SERIAL PRIMARY KEY,
+  name TEXT
+);
+
+CREATE TABLE task(
+  id SERIAL PRIMARY KEY,
+  name TEXT,
+  description TEXT,
+  priority INTEGER,
+  is_favorite BOOLEAN,
+  is_completed BOOLEAN,
+  task_group_id INTEGER,
+  FOREIGN KEY (task_group_id) REFERENCES task_group (id)
+);
+
+CREATE TABLE users(
+  id SERIAL PRIMARY KEY,
+  username TEXT,
+  password TEXT,
+  email TEXT
+);
+
+INSERT INTO task_group(name) VALUES('testgroup');
+
+INSERT INTO users(username, password, email) VALUES('testusername', 'testpassword', 'testemail');
+
+INSERT INTO task(name, description, priority, is_favorite, is_completed, task_group_id) VALUES('testusername', 'testpassword', 2, true, true, 1);
