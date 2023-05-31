@@ -1,14 +1,13 @@
 let tasksListEl = [];
-
+let taskList = document.querySelector('.tasks-list');
 let curOptEl = 0;
 
 addTasksToTaskList();
 
 async function showTaskList() {
-  let taskList = document.querySelector('.tasks-list');
   taskList.innerHTML = '';
-  tasksListEl.forEach((el, i) => {
-    addTaskElement(el.priority, el.name, i)
+  tasksListEl.forEach((el) => {
+    addTaskElement(el.priority, el.name);
   })
 }
 
@@ -31,11 +30,38 @@ function hideAllMenus() {
   });
 }
 
-const createNewTaskElement = (priorityArg, taskTextArg, index) => {
+async function getOneTaskGroup(taskGroupId) {
+  let taskGroupObject = [];
+  let result = await fetch(`http://localhost:8080/taskGroup/${taskGroupId}`,  {
+      method: 'GET',
+      headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      },
+      mode: 'cors',
+
+  }).then(res => {
+    return res.json();
+  })
+  .then(data => {
+    return data;
+  })
+  .catch(error => console.log(error))
+  
+  taskGroupObject = await result;
+  console.log(taskGroupObject);
+  return taskGroupObject;
+}
+
+const createNewTaskElement = async (priorityArg, taskTextArg, isCompletedArg, isFavoriteArg, taskGroupIdArg, userIdArg) => {
   console.log(`PriorityArg ${priorityArg}`);
   console.log(`TaskTextArg ${taskTextArg}`);
   let priority = priorityArg === null || priorityArg === undefined || typeof priorityArg !== typeof Number() ? 0: priorityArg;
   let taskText = taskTextArg === null || taskTextArg === undefined || typeof taskTextArg !== typeof String() ? '' : taskTextArg;
+  let isCompleted = isCompletedArg === null || isCompletedArg === undefined || typeof isCompletedArg !== typeof Boolean() ? false : isCompletedArg;
+  let isFavorite = isFavoriteArg === null || isFavoriteArg === undefined || typeof isFavoriteArg !== typeof Boolean() ? false : isFavoriteArg;
+  let taskGroupId = taskGroupIdArg === null || taskGroupIdArg === undefined || typeof taskGroupIdArg !== typeof Number() ? 0: taskGroupIdArg;
+  let userId = userIdArg === null || userIdArg === undefined || typeof userIdArg !== typeof Number() ? 0: userIdArg;
 
   let taskListElement = document.createElement("div")
   taskListElement.className = "task-list__element";
@@ -56,7 +82,10 @@ const createNewTaskElement = (priorityArg, taskTextArg, index) => {
 
   let taskListCircleInput = document.createElement("input");
   taskListCircleInput.type = "checkbox";
-  
+  if (isCompleted === true) {
+    taskListCircleInput.checked = true;
+  }
+ 
   let taskListCircleCheck = document.createElement("span");
 
   if (priority == 0) {
@@ -106,6 +135,15 @@ const createNewTaskElement = (priorityArg, taskTextArg, index) => {
   taskListOptionsElHighPriority.textContent = "High priority";
 
   taskListOptionsElUpdate.addEventListener("click", () => {
+    let nameValue = '';
+    let nameInputs = document.querySelectorAll('.task-list__name');
+    for (let i = 0; i < nameInputs.length; i++) {
+      if (i === curOptEl) {
+        nameValue = nameInputs[i].value;
+      }
+    }
+    tasksListEl[curOptEl].name = nameValue;
+    let taskData = tasksListEl[curOptEl];
     // let taskData = {
     //   name: "defaultName",
     //   priority: 1,
@@ -115,16 +153,19 @@ const createNewTaskElement = (priorityArg, taskTextArg, index) => {
     //   creation_date: "2023-05-12",
     //   completion_date: "2023-05-27"
     // }
-    // updateTask(taskData, 1);
-    let nameValue = '';
-    let nameInputs = document.querySelectorAll('.task-list__name');
-    for (let i = 0; i < nameInputs.length; i++) {
-      if (i === curOptEl) {
-        nameValue = nameInputs[i].value;
-      }
-    }
-    tasksListEl[curOptEl].name = nameValue;
-    console.log(tasksListEl[curOptEl]);
+    updateTask(taskData, taskData.id);
+    // let priorityValue = tasks;
+    // let isFavoriteValue = false;  
+    // let isCompleted = false;
+    // let taskGroupIdValue = 1;
+    // const now = new Date();
+    // const options = { month: '2-digit' };
+    // let year = `${now.getFullYear()}`;
+    // let month = `${now.toLocaleString('en-US', options)}`;
+    // let date = `${now.getDate()}`;
+    // let today = `${year}-${month}-${date}`;
+    // let creationDate = today;
+    // let completionDate = '0000-00-00';
     hideAllMenus();
   }, false);
 
@@ -135,8 +176,8 @@ const createNewTaskElement = (priorityArg, taskTextArg, index) => {
   }, false); 
 
   taskListOptionsElFavorite.addEventListener("click", () => {
-    console.log(event.target.classList)
-    console.log(tasksListEl[curOptEl])
+    console.log(event.target.classList);
+    console.log(tasksListEl[curOptEl]);
     let favEls = document.querySelectorAll('.task-list__fav');
     if (tasksListEl[curOptEl].is_favorite === true) {
       tasksListEl[curOptEl].is_favorite = false;
@@ -195,6 +236,14 @@ const createNewTaskElement = (priorityArg, taskTextArg, index) => {
     hideAllMenus();
   }, false);
 
+  taskListCircleInput.addEventListener("click", () => {
+    if (taskListCircleInput.checked === true) {
+      tasksListEl[curOptEl].is_completed = true;
+    } else {
+      tasksListEl[curOptEl].is_completed = false;
+    }
+  })
+
   taskListOptionsMenu.appendChild(taskListOptionsElUpdate);
   taskListOptionsMenu.appendChild(taskListOptionsElDelete);
   taskListOptionsMenu.appendChild(taskListOptionsElFavorite);
@@ -207,20 +256,20 @@ const createNewTaskElement = (priorityArg, taskTextArg, index) => {
   }, false);
 
   // taskListOptions.appendChild(taskListOptionsMenu);
-  
-  document.addEventListener("click", event => {
-    if (event.button !== 2) {
-      menuArr.forEach((el) => {
-        el.classList.remove("active");
-      })
-      
-    }
-  }, false);
 
   let taskFavIndicator = document.createElement('img');
   taskFavIndicator.className = "task-list__fav";
+  if (isFavorite === true) {
+    taskFavIndicator.classList.add('active');
+  }
   taskFavIndicator.src = "./img/favorite-icon.png";
   taskFavIndicator.width = '20px';
+
+  let taskGroupText = document.createElement('div');
+  taskGroupText.className = "task-list__task-group";
+  let result = await getOneTaskGroup(taskGroupId);
+  taskGroupText.textContent = result.name;
+  // console.log(result);
 
   taskListCircle.appendChild(taskListCircleInput);
   taskListCircle.appendChild(taskListCircleCheck);
@@ -229,6 +278,7 @@ const createNewTaskElement = (priorityArg, taskTextArg, index) => {
   taskListRectangleInner.appendChild(taskListElementInput);
   taskListRectangleInner.appendChild(taskListOptions);
   taskListRectangleInner.appendChild(taskFavIndicator);
+  taskListRectangleInner.appendChild(taskGroupText);
   taskListRectangleInner.appendChild(taskListOptionsMenu);
 
   taskListRectangle.appendChild(taskListRectangleInner);
@@ -262,16 +312,13 @@ const createNewTaskElement = (priorityArg, taskTextArg, index) => {
   return taskListElement; 
 }
 
-const addTaskElement = (priorityArg, taskTextArg, index) => {
-  console.log('Add task');
-
-  let newTaskListEl = createNewTaskElement(priorityArg, taskTextArg, index);
-  newTaskListEl.classList.add(String('el-' + index))
+const addTaskElement = async (priorityArg, taskTextArg, isCompleted, isFavorite, taskGroupId, userId) => {
+  let newTaskListEl = await createNewTaskElement(priorityArg, taskTextArg, isCompleted, isFavorite, taskGroupId, userId);
 
   taskList.appendChild(newTaskListEl);
 }
 
-let taskList = document.querySelector('.tasks-list');
+
 let addTaskBtn = document.querySelector('.add-task__button');
 
 async function getTasks() {
@@ -349,93 +396,27 @@ async function addTasksToTaskList() {
   tasksArr = await getTasks();
 
   tasksArr.forEach((el, i) => {
-    addTaskElement(el.priority, el.name, i)
+    addTaskElement(el.priority, el.name, el.is_completed, el.is_favorite, el.task_group_id, el.user_id)
   })
 }
 
-let menuAreaArr = document.querySelectorAll(".task-list__options");
-let menuArr = document.querySelectorAll(".task-list__options-menu");
-
-let updateElementArr = document.querySelectorAll(".task-list__options-menu-element-update");
-let deleteElementArr = document.querySelectorAll(".task-list__options-menu-element-delete");
-let favoriteElementArr = document.querySelectorAll(".task-list__options-menu-element-favorite");
-let lowPriorityElementArr = document.querySelectorAll(".task-list__options-menu-element-low-priority");
-let mediumPriorityElementArr = document.querySelectorAll(".task-list__options-menu-element-medium-priority");
-let highPriorityElementArr = document.querySelectorAll(".task-list__options-menu-element-high-priority");
-
-// menuAreaArr.forEach((el, index) => {
-//   el.addEventListener("contextmenu", event => {
-//     event.preventDefault();
-//     menuArr[index].style.top = `${event.clientY}px`;
-//     menuArr[index].style.left = `${event.clientX}px`;
-//     menuArr[index].classList.toggle("active");
-//   })
-// })
-
-menuArr.forEach((el) => {
-  el.addEventListener("click", event => {
-    event.stopPropagation();
-  }, false);
-})
-
-document.addEventListener("click", event => {
-  if (event.button !== 2) {
-    menuArr.forEach((el) => {
-      el.classList.remove("active");
-    })
-    
-  }
-}, false);
-
-updateElementArr.forEach((el) => {
-  el.addEventListener("click", () => {
-    alert("update");
-  }, false);
-})
-
-deleteElementArr.forEach((el) => {
-  el.addEventListener("click", () => {
-    alert("Delete");
-  }, false);
-}) 
-
-favoriteElementArr.forEach((el) => {
-  el.addEventListener("click", () => {
-    alert("Favorite");
-  }, false);
-})
-
-lowPriorityElementArr.forEach((el) => {
-  el.addEventListener("click", () => {
-    alert("Low priority");
-  }, false);
-})
-
-mediumPriorityElementArr.forEach((el) => {
-  el.addEventListener("click", () => {
-    alert("Medium priority");
-  }, false);
-})
-
-highPriorityElementArr.forEach((el) => {
-  el.addEventListener("click", () => {
-    alert("High priority");
-  }, false);
-})
-
 addTaskBtn.addEventListener("click", () => {
   let addTaskInput = document.querySelector('.add-task-rectangle');
-
+  let nameValue = addTaskInput.value;
+  if (nameValue != '') {
+    addTaskElement(0, nameValue, false, false, 1, 1);
+  }
   let taskListElement = {
-    name: addTaskInput.value,
-    priority: 1,
+    name: nameValue,
+    priority: 0,
     is_favorite: false,
     is_completed: false,
     task_group_id: 1,
     creation_date: "2023-05-12",
     completion_date: "2023-05-27"
   };
+  // let taskData = tasksListEl[curOptEl];
+
   tasksListEl.push(taskListElement);
-  console.log(tasksListEl);
-  addTaskElement(null, null);
+  
 });

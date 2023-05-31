@@ -250,7 +250,7 @@ Tasks */
   letter-spacing: 0em;
   text-align: left;
 
-  width: 80%;
+  width: 75%;
 
   margin-left: 40px;
 
@@ -276,6 +276,10 @@ Tasks */
 
 .task-list__fav.active {
   display: block;
+}
+
+.task-list__task-group {
+  margin-left: 10px;
 }
 
 .task-list__options-menu {
