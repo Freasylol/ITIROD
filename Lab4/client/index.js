@@ -53,14 +53,14 @@ async function getOneTaskGroup(taskGroupId) {
   return taskGroupObject;
 }
 
-const createNewTaskElement = async (priorityArg, taskTextArg, isCompletedArg, isFavoriteArg, taskGroupIdArg, userIdArg) => {
-  console.log(`PriorityArg ${priorityArg}`);
-  console.log(`TaskTextArg ${taskTextArg}`);
+const createNewTaskElement = async (priorityArg, taskTextArg, isCompletedArg, isFavoriteArg, result, userIdArg) => {
+  // console.log(`PriorityArg ${priorityArg}`);
+  // console.log(`TaskTextArg ${taskTextArg}`);
   let priority = priorityArg === null || priorityArg === undefined || typeof priorityArg !== typeof Number() ? 0: priorityArg;
   let taskText = taskTextArg === null || taskTextArg === undefined || typeof taskTextArg !== typeof String() ? '' : taskTextArg;
   let isCompleted = isCompletedArg === null || isCompletedArg === undefined || typeof isCompletedArg !== typeof Boolean() ? false : isCompletedArg;
   let isFavorite = isFavoriteArg === null || isFavoriteArg === undefined || typeof isFavoriteArg !== typeof Boolean() ? false : isFavoriteArg;
-  let taskGroupId = taskGroupIdArg === null || taskGroupIdArg === undefined || typeof taskGroupIdArg !== typeof Number() ? 0: taskGroupIdArg;
+  // let taskGroupId = taskGroupIdArg === null || taskGroupIdArg === undefined || typeof taskGroupIdArg !== typeof Number() ? 0: taskGroupIdArg;
   let userId = userIdArg === null || userIdArg === undefined || typeof userIdArg !== typeof Number() ? 0: userIdArg;
 
   let taskListElement = document.createElement("div")
@@ -104,7 +104,7 @@ const createNewTaskElement = async (priorityArg, taskTextArg, isCompletedArg, is
   taskListInput.className = "task-list__name";
 
   taskListOptions = document.createElement("img");
-  taskListOptions.className = `task-list__options options-${taskRectangles.length}`;
+  taskListOptions.className = `task-list__options options`;
   taskListOptions.src = "./img/options-icon.png";
 
   taskListOptionsMenu = document.createElement("ul");
@@ -267,9 +267,7 @@ const createNewTaskElement = async (priorityArg, taskTextArg, isCompletedArg, is
 
   let taskGroupText = document.createElement('div');
   taskGroupText.className = "task-list__task-group";
-  let result = await getOneTaskGroup(taskGroupId);
   taskGroupText.textContent = result.name;
-  // console.log(result);
 
   taskListCircle.appendChild(taskListCircleInput);
   taskListCircle.appendChild(taskListCircleCheck);
@@ -313,11 +311,11 @@ const createNewTaskElement = async (priorityArg, taskTextArg, isCompletedArg, is
 }
 
 const addTaskElement = async (priorityArg, taskTextArg, isCompleted, isFavorite, taskGroupId, userId) => {
-  let newTaskListEl = await createNewTaskElement(priorityArg, taskTextArg, isCompleted, isFavorite, taskGroupId, userId);
+  let result = await getOneTaskGroup(taskGroupId);
+  let newTaskListEl = await createNewTaskElement(priorityArg, taskTextArg, isCompleted, isFavorite, result, userId);
 
   taskList.appendChild(newTaskListEl);
 }
-
 
 let addTaskBtn = document.querySelector('.add-task__button');
 
@@ -395,8 +393,8 @@ async function updateTask(taskData, taskId) {
 async function addTasksToTaskList() {
   tasksArr = await getTasks();
 
-  tasksArr.forEach((el, i) => {
-    addTaskElement(el.priority, el.name, el.is_completed, el.is_favorite, el.task_group_id, el.user_id)
+  tasksArr.forEach(async (el, i) => {
+    await addTaskElement(el.priority, el.name, el.is_completed, el.is_favorite, el.task_group_id, el.user_id)
   })
 }
 
