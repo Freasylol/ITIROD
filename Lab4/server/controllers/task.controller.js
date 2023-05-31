@@ -21,7 +21,7 @@ class TaskController {
 
   async updateTask(req, res) {
     const id = req.params.id;
-    const { name, priority, is_favorite, is_completed, task_group_id, creation_date, completion_date } = req.body;
+    const { name, user_id, priority, is_favorite, is_completed, task_group_id, creation_date, completion_date } = req.body;
     const updatedTask = await db.query(`UPDATE task set name = $1, priority = $2, is_favorite = $3, is_completed = $4, task_group_id = $5, user_id = $6, creation_date = $7, completion_date = $8 WHERE id = $9`, [name, priority, is_favorite, is_completed, task_group_id, user_id, creation_date, completion_date, id]);
     res.json('task Updated');
   }

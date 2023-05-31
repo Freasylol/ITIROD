@@ -113,7 +113,6 @@ const createNewTaskElement = (priorityArg, taskTextArg, index) => {
     for (let i = 0; i < nameInputs.length; i++) {
       if (i === curOptEl) {
         nameValue = nameInputs[i].value;
-        // console.log(nameValue);
       }
     }
     tasksListEl[curOptEl].name = nameValue;
@@ -139,20 +138,49 @@ const createNewTaskElement = (priorityArg, taskTextArg, index) => {
   }, false);
 
   taskListOptionsElLowPriority.addEventListener("click", () => {
-    tasksListEl[curOptEl].priority = 0;
-    console.log(tasksListEl[curOptEl]);
+    tasksListEl[curOptEl].priority = 1;
+    let checkboxes = document.querySelectorAll('.checkbox span');
+    for (let i = 0; i < checkboxes.length; i++) {
+      if (i === curOptEl) {
+        if (checkboxes[i].classList.contains('medium-priority')) {
+          checkboxes[i].classList.remove('medium-priority');
+        } else if (checkboxes[i].classList.contains('high-priority')) {
+          checkboxes[i].classList.remove('high-priority');
+        }
+      }
+    }
     hideAllMenus();
   }, false);
 
   taskListOptionsElMediumPriority.addEventListener("click", () => {
     tasksListEl[curOptEl].priority = 1;
-    console.log(tasksListEl[curOptEl]);
+    let checkboxes = document.querySelectorAll('.checkbox span');
+    for (let i = 0; i < checkboxes.length; i++) {
+      if (i === curOptEl) {
+        if (checkboxes[i].classList.contains('high-priority')) {
+          checkboxes[i].classList.remove('high-priority');
+          checkboxes[i].classList.add('medium-priority');
+        } else if (checkboxes[i].classList.contains('medium-priority') != true) {
+          checkboxes[i].classList.add('medium-priority');
+        }
+      }
+    }
     hideAllMenus();
   }, false);
 
   taskListOptionsElHighPriority.addEventListener("click", () => {
     tasksListEl[curOptEl].priority = 2;
-    console.log(tasksListEl[curOptEl]);
+    let checkboxes = document.querySelectorAll('.checkbox span'); 
+    for (let i = 0; i < checkboxes.length; i++) {
+      if (i === curOptEl) {
+        if (checkboxes[i].classList.contains('medium-priority')) {
+          checkboxes[i].classList.remove('medium-priority');
+          checkboxes[i].classList.add('high-priority');
+        } else if (checkboxes[i].classList.contains('high-priority') != true) {
+          checkboxes[i].classList.add('high-priority');
+        }
+      }
+    }
     hideAllMenus();
   }, false);
 
