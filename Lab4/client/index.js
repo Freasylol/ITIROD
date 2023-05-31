@@ -128,11 +128,13 @@ const createNewTaskElement = (priorityArg, taskTextArg, index) => {
   taskListOptionsElFavorite.addEventListener("click", () => {
     console.log(event.target.classList)
     console.log(tasksListEl[curOptEl])
+    let favEls = document.querySelectorAll('.task-list__fav');
     if (tasksListEl[curOptEl].is_favorite === true) {
       tasksListEl[curOptEl].is_favorite = false;
     } else {
       tasksListEl[curOptEl].is_favorite = true;
     }
+    favEls[curOptEl].classList.toggle('active');
     console.log(tasksListEl[curOptEl]); 
     hideAllMenus();
   }, false);
@@ -140,14 +142,10 @@ const createNewTaskElement = (priorityArg, taskTextArg, index) => {
   taskListOptionsElLowPriority.addEventListener("click", () => {
     tasksListEl[curOptEl].priority = 1;
     let checkboxes = document.querySelectorAll('.checkbox span');
-    for (let i = 0; i < checkboxes.length; i++) {
-      if (i === curOptEl) {
-        if (checkboxes[i].classList.contains('medium-priority')) {
-          checkboxes[i].classList.remove('medium-priority');
-        } else if (checkboxes[i].classList.contains('high-priority')) {
-          checkboxes[i].classList.remove('high-priority');
-        }
-      }
+    if (checkboxes[curOptEl].classList.contains('medium-priority')) {
+      checkboxes[curOptEl].classList.remove('medium-priority');
+    } else if (checkboxes[curOptEl].classList.contains('high-priority')) {
+      checkboxes[curOptEl].classList.remove('high-priority');
     }
     hideAllMenus();
   }, false);
@@ -155,31 +153,24 @@ const createNewTaskElement = (priorityArg, taskTextArg, index) => {
   taskListOptionsElMediumPriority.addEventListener("click", () => {
     tasksListEl[curOptEl].priority = 1;
     let checkboxes = document.querySelectorAll('.checkbox span');
-    for (let i = 0; i < checkboxes.length; i++) {
-      if (i === curOptEl) {
-        if (checkboxes[i].classList.contains('high-priority')) {
-          checkboxes[i].classList.remove('high-priority');
-          checkboxes[i].classList.add('medium-priority');
-        } else if (checkboxes[i].classList.contains('medium-priority') != true) {
-          checkboxes[i].classList.add('medium-priority');
-        }
-      }
+    if (checkboxes[curOptEl].classList.contains('high-priority')) {
+      checkboxes[curOptEl].classList.remove('high-priority');
+      checkboxes[curOptEl].classList.add('medium-priority');
+    } else if (checkboxes[curOptEl].classList.contains('medium-priority') != true) {
+      checkboxes[curOptEl].classList.add('medium-priority');
     }
+
     hideAllMenus();
   }, false);
 
   taskListOptionsElHighPriority.addEventListener("click", () => {
     tasksListEl[curOptEl].priority = 2;
     let checkboxes = document.querySelectorAll('.checkbox span'); 
-    for (let i = 0; i < checkboxes.length; i++) {
-      if (i === curOptEl) {
-        if (checkboxes[i].classList.contains('medium-priority')) {
-          checkboxes[i].classList.remove('medium-priority');
-          checkboxes[i].classList.add('high-priority');
-        } else if (checkboxes[i].classList.contains('high-priority') != true) {
-          checkboxes[i].classList.add('high-priority');
-        }
-      }
+    if (checkboxes[curOptEl].classList.contains('medium-priority')) {
+      checkboxes[curOptEl].classList.remove('medium-priority');
+      checkboxes[curOptEl].classList.add('high-priority');
+    } else if (checkboxes[curOptEl].classList.contains('high-priority') != true) {
+      checkboxes[curOptEl].classList.add('high-priority');
     }
     hideAllMenus();
   }, false);
@@ -206,12 +197,18 @@ const createNewTaskElement = (priorityArg, taskTextArg, index) => {
     }
   }, false);
 
+  let taskFavIndicator = document.createElement('img');
+  taskFavIndicator.className = "task-list__fav";
+  taskFavIndicator.src = "./img/favorite-icon.png";
+  taskFavIndicator.width = '20px';
+
   taskListCircle.appendChild(taskListCircleInput);
   taskListCircle.appendChild(taskListCircleCheck);
 
   taskListRectangleInner.appendChild(taskListCircle);
   taskListRectangleInner.appendChild(taskListElementInput);
   taskListRectangleInner.appendChild(taskListOptions);
+  taskListRectangleInner.appendChild(taskFavIndicator);
   taskListRectangleInner.appendChild(taskListOptionsMenu);
 
   taskListRectangle.appendChild(taskListRectangleInner);

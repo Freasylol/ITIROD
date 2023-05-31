@@ -269,6 +269,15 @@ Tasks */
   cursor: pointer;
 }
 
+.task-list__fav {
+  width: 20px;
+  display: none;
+}
+
+.task-list__fav.active {
+  display: block;
+}
+
 .task-list__options-menu {
   margin: 0;
   padding: 0;
