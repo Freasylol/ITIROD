@@ -4,6 +4,14 @@ let curOptEl = 0;
 
 addTasksToTaskList();
 
+async function showTaskList() {
+  let taskList = document.querySelector('.tasks-list');
+  taskList.innerHTML = '';
+  tasksListEl.forEach((el, i) => {
+    addTaskElement(el.priority, el.name, i)
+  })
+}
+
 window.addEventListener('scroll', async function() {
   let bodyHeight = document.querySelector('.container').offsetHeight;
   let sidebar = this.document.querySelector('.sidebar');
@@ -122,6 +130,7 @@ const createNewTaskElement = (priorityArg, taskTextArg, index) => {
 
   taskListOptionsElDelete.addEventListener("click", () => {
     tasksListEl.splice(curOptEl, 1);
+    showTaskList();
     hideAllMenus();
   }, false); 
 
@@ -144,19 +153,27 @@ const createNewTaskElement = (priorityArg, taskTextArg, index) => {
     let checkboxes = document.querySelectorAll('.checkbox span');
     if (checkboxes[curOptEl].classList.contains('medium-priority')) {
       checkboxes[curOptEl].classList.remove('medium-priority');
+      checkboxes[curOptEl].classList.add('low-priority');
     } else if (checkboxes[curOptEl].classList.contains('high-priority')) {
       checkboxes[curOptEl].classList.remove('high-priority');
+      checkboxes[curOptEl].classList.add('low-priority');
+    } else if (checkboxes[curOptEl].classList.contains('low-priority') != true) {
+      checkboxes[curOptEl].classList.add('low-priority');
     }
     hideAllMenus();
   }, false);
 
   taskListOptionsElMediumPriority.addEventListener("click", () => {
-    tasksListEl[curOptEl].priority = 1;
+    tasksListEl[curOptEl].priority = 2;
     let checkboxes = document.querySelectorAll('.checkbox span');
     if (checkboxes[curOptEl].classList.contains('high-priority')) {
       checkboxes[curOptEl].classList.remove('high-priority');
       checkboxes[curOptEl].classList.add('medium-priority');
-    } else if (checkboxes[curOptEl].classList.contains('medium-priority') != true) {
+    } else if (checkboxes[curOptEl].classList.contains('low-priority')) {
+      checkboxes[curOptEl].classList.remove('low-priority');
+      checkboxes[curOptEl].classList.add('medium-priority');
+    } 
+    else if (checkboxes[curOptEl].classList.contains('medium-priority') != true) {
       checkboxes[curOptEl].classList.add('medium-priority');
     }
 
@@ -164,10 +181,13 @@ const createNewTaskElement = (priorityArg, taskTextArg, index) => {
   }, false);
 
   taskListOptionsElHighPriority.addEventListener("click", () => {
-    tasksListEl[curOptEl].priority = 2;
+    tasksListEl[curOptEl].priority = 3;
     let checkboxes = document.querySelectorAll('.checkbox span'); 
     if (checkboxes[curOptEl].classList.contains('medium-priority')) {
       checkboxes[curOptEl].classList.remove('medium-priority');
+      checkboxes[curOptEl].classList.add('high-priority');
+    } else if (checkboxes[curOptEl].classList.contains('low-priority')) {
+      checkboxes[curOptEl].classList.remove('low-priority');
       checkboxes[curOptEl].classList.add('high-priority');
     } else if (checkboxes[curOptEl].classList.contains('high-priority') != true) {
       checkboxes[curOptEl].classList.add('high-priority');
