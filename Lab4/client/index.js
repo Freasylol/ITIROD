@@ -1,15 +1,33 @@
 let tasksListEl = [];
 
+let curOptEl = 0;
+
 addTasksToTaskList();
 
-const createNewTaskElement = (priorityArg, taskTextArg) => {
+window.addEventListener('scroll', async function() {
+  let bodyHeight = document.querySelector('.container').offsetHeight;
+  let sidebar = this.document.querySelector('.sidebar');
+  sidebar.style.height = String(bodyHeight) + 'px';
+});
+
+document.addEventListener("click", function(event) {
+  hideAllMenus();
+});
+
+function hideAllMenus() {
+  var menus = document.querySelectorAll(".task-list__options-menu");
+  menus.forEach(function(menu) {
+    if (menu.classList.contains('active')) {
+      menu.classList.toggle('active');
+    }
+  });
+}
+
+const createNewTaskElement = (priorityArg, taskTextArg, index) => {
   console.log(`PriorityArg ${priorityArg}`);
   console.log(`TaskTextArg ${taskTextArg}`);
   let priority = priorityArg === null || priorityArg === undefined || typeof priorityArg !== typeof Number() ? 0: priorityArg;
   let taskText = taskTextArg === null || taskTextArg === undefined || typeof taskTextArg !== typeof String() ? '' : taskTextArg;
-
-  // console.log(`Changed PriorityArg ${priority}`);
-  // console.log(`Changed TaskTextArg ${taskText}`);
 
   let taskListElement = document.createElement("div")
   taskListElement.className = "task-list__element";
@@ -43,11 +61,13 @@ const createNewTaskElement = (priorityArg, taskTextArg) => {
     taskListCircleCheck.classList.add("check", "high-priority");
   }
 
+  let taskRectangles = document.querySelectorAll('.task-list__element')
+
   taskListInput = document.createElement("input");
   taskListInput.className = "task-list__name";
 
   taskListOptions = document.createElement("img");
-  taskListOptions.className = "task-list__options";
+  taskListOptions.className = `task-list__options options-${taskRectangles.length}`;
   taskListOptions.src = "./img/options-icon.png";
 
   taskListOptionsMenu = document.createElement("ul");
@@ -62,7 +82,7 @@ const createNewTaskElement = (priorityArg, taskTextArg) => {
   taskListOptionsElDelete.textContent = "Delete";
 
   taskListOptionsElFavorite = document.createElement("li");
-  taskListOptionsElFavorite.className = "task-list__options-menu-element-favorite"; 
+  taskListOptionsElFavorite.className = `task-list__options-menu-element-favorite favorite-${taskRectangles.length}`; 
   taskListOptionsElFavorite.textContent = "Favorite";
 
   taskListOptionsElLowPriority = document.createElement("li");
@@ -78,47 +98,62 @@ const createNewTaskElement = (priorityArg, taskTextArg) => {
   taskListOptionsElHighPriority.textContent = "High priority";
 
   taskListOptionsElUpdate.addEventListener("click", () => {
-    let taskData = {
-      name: "defaultName",
-      priority: 1,
-      is_favorite: false,
-      is_completed: false,
-      task_group_id: 1,
-      creation_date: "2023-05-12",
-      completion_date: "2023-05-27"
+    // let taskData = {
+    //   name: "defaultName",
+    //   priority: 1,
+    //   is_favorite: false,
+    //   is_completed: false,
+    //   task_group_id: 1,
+    //   creation_date: "2023-05-12",
+    //   completion_date: "2023-05-27"
+    // }
+    // updateTask(taskData, 1);
+    let nameValue = '';
+    let nameInputs = document.querySelectorAll('.task-list__name');
+    for (let i = 0; i < nameInputs.length; i++) {
+      if (i === curOptEl) {
+        nameValue = nameInputs[i].value;
+        // console.log(nameValue);
+      }
     }
-    updateTask(taskData, 1);
+    tasksListEl[curOptEl].name = nameValue;
+    console.log(tasksListEl[curOptEl]);
+    hideAllMenus();
   }, false);
 
   taskListOptionsElDelete.addEventListener("click", () => {
-      alert("Delete");
+    tasksListEl.splice(curOptEl, 1);
+    hideAllMenus();
   }, false); 
 
   taskListOptionsElFavorite.addEventListener("click", () => {
-    favoriteButtons = document.querySelectorAll('.task-list__options-menu-element-favorite');
-    console.log(favoriteButtons);
-    let index = 0;
-    for (let i = 0; i < favoriteButtons.length; i++) {
-      if (favoriteButtons[i] === event.target) {
-        index = i;
-        break;
-      }
+    console.log(event.target.classList)
+    console.log(tasksListEl[curOptEl])
+    if (tasksListEl[curOptEl].is_favorite === true) {
+      tasksListEl[curOptEl].is_favorite = false;
+    } else {
+      tasksListEl[curOptEl].is_favorite = true;
     }
-    console.log(index);
-    // alert("Favorite");
-    // menuArr[index].classList.toggle("active");
+    console.log(tasksListEl[curOptEl]); 
+    hideAllMenus();
   }, false);
 
   taskListOptionsElLowPriority.addEventListener("click", () => {
-    alert("Low priority");
+    tasksListEl[curOptEl].priority = 0;
+    console.log(tasksListEl[curOptEl]);
+    hideAllMenus();
   }, false);
 
   taskListOptionsElMediumPriority.addEventListener("click", () => {
-    alert("Medium priority");
+    tasksListEl[curOptEl].priority = 1;
+    console.log(tasksListEl[curOptEl]);
+    hideAllMenus();
   }, false);
 
   taskListOptionsElHighPriority.addEventListener("click", () => {
-    alert("High priority");
+    tasksListEl[curOptEl].priority = 2;
+    console.log(tasksListEl[curOptEl]);
+    hideAllMenus();
   }, false);
 
   taskListOptionsMenu.appendChild(taskListOptionsElUpdate);
@@ -157,6 +192,23 @@ const createNewTaskElement = (priorityArg, taskTextArg) => {
 
   taskListOptions.addEventListener("contextmenu", event => {
     event.preventDefault();
+    let classList = event.target.classList; 
+    console.log(classList)
+    for (let i = 0; i < classList.length; i++) {
+      if (classList[i].includes('options-')) {
+        curOptEl = classList[i].split('').splice(classList[i].indexOf('-') + 1, classList[i].length - 1);
+        console.log(curOptEl);
+        break;
+      }
+    }
+    let sum = 0;
+
+    for (let i = 0; i < curOptEl.length; i++) {
+      sum += curOptEl[i];
+    }
+    curOptEl = Number(sum);
+    console.log(curOptEl);
+
     taskListOptionsMenu.style.top = `${event.clientY}px`;
     taskListOptionsMenu.style.left = `${event.clientX}px`;
     taskListOptionsMenu.classList.toggle("active");
@@ -168,7 +220,7 @@ const createNewTaskElement = (priorityArg, taskTextArg) => {
 const addTaskElement = (priorityArg, taskTextArg, index) => {
   console.log('Add task');
 
-  let newTaskListEl = createNewTaskElement(priorityArg, taskTextArg);
+  let newTaskListEl = createNewTaskElement(priorityArg, taskTextArg, index);
   newTaskListEl.classList.add(String('el-' + index))
 
   taskList.appendChild(newTaskListEl);
@@ -256,16 +308,6 @@ async function addTasksToTaskList() {
   })
 }
 
-// let menuArea = document.querySelector(".task-list__options");
-// let menu = document.querySelector(".task-list__options-menu");
-
-// let updateElement = document.querySelector(".task-list__options-menu-element-update");
-// let deleteElement = document.querySelector(".task-list__options-menu-element-delete");
-// let favoriteElement = document.querySelector(".task-list__options-menu-element-favorite");
-// let lowPriorityElement = document.querySelector(".task-list__options-menu-element-low-priority");
-// let mediumPriorityElement = document.querySelector(".task-list__options-menu-element-medium-priority");
-// let highPriorityElement = document.querySelector(".task-list__options-menu-element-high-priority");
-
 let menuAreaArr = document.querySelectorAll(".task-list__options");
 let menuArr = document.querySelectorAll(".task-list__options-menu");
 
@@ -276,14 +318,14 @@ let lowPriorityElementArr = document.querySelectorAll(".task-list__options-menu-
 let mediumPriorityElementArr = document.querySelectorAll(".task-list__options-menu-element-medium-priority");
 let highPriorityElementArr = document.querySelectorAll(".task-list__options-menu-element-high-priority");
 
-menuAreaArr.forEach((el, index) => {
-  el.addEventListener("contextmenu", event => {
-    event.preventDefault();
-    menuArr[index].style.top = `${event.clientY}px`;
-    menuArr[index].style.left = `${event.clientX}px`;
-    menuArr[index].classList.toggle("active");
-  })
-})
+// menuAreaArr.forEach((el, index) => {
+//   el.addEventListener("contextmenu", event => {
+//     event.preventDefault();
+//     menuArr[index].style.top = `${event.clientY}px`;
+//     menuArr[index].style.left = `${event.clientX}px`;
+//     menuArr[index].classList.toggle("active");
+//   })
+// })
 
 menuArr.forEach((el) => {
   el.addEventListener("click", event => {
