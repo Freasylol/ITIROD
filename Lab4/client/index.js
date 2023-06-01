@@ -2,14 +2,20 @@ let tasksListEl = [];
 let taskList = document.querySelector('.tasks-list');
 let curOptEl = 0;
 
-// localStorage.clear();
-let userId = localStorage.getItem("userId");
-console.log(userId);
 
-if (userId === null) {
+let globalUserId = localStorage.getItem("userId");
+console.log(globalUserId);
+
+if (globalUserId === null) {
   console.log('user not authorized');
   window.location.href = 'http://localhost:8080/signInPage.html';
 }
+
+let sidebarIcon = document.querySelector('.sidebar__user-icon');
+sidebarIcon.addEventListener('click', () => {
+  localStorage.clear();
+  window.location.href = 'http://localhost:8080/signInPage.html';
+}) 
 
 addTasksToTaskList();
 
@@ -353,6 +359,35 @@ async function getTasks() {
   return tasksArr
 }
 
+async function getUserTasks() {
+  let tasksArr = [];
+  let queryData = {
+    "user_id": globalUserId
+}
+
+  let result = await fetch('http://localhost:8080/userTasks',  {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      },
+      mode: 'cors',
+      body: JSON.stringify(queryData)
+
+  }).then(res => {
+    return res.json();
+  })
+  .then(data => {
+    return data;
+  })
+  .catch(error => console.log(error))
+  
+  tasksArr = await result;
+  tasksListEl = tasksArr;
+  console.log(tasksListEl);
+  return tasksArr
+}
+
 async function getOneTask(taskId) {
   let tasksObject = [];
   let result = await fetch(`http://localhost:8080/task/${taskId}`,  {
@@ -401,7 +436,7 @@ async function updateTask(taskData, taskId) {
 }
 
 async function addTasksToTaskList() {
-  tasksArr = await getTasks();
+  tasksArr = await getUserTasks();
 
   tasksArr.forEach(async (el, i) => {
     await addTaskElement(el.priority, el.name, el.is_completed, el.is_favorite, el.task_group_id, el.user_id)
