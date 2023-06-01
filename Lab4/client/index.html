@@ -11,6 +11,14 @@
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+  <div class="taskgroup-modal">
+    <div class="taskgroup-modal__content">
+      <span class="taskgroup__close">&times;</span>
+      <p>TaskGroup creation</p>
+      <input class="taskgroup-modal__input"></input>
+      <button class="taskgroup-modal__create-btn">Create</button>
+    </div>
+  </div>
   <main class="container">
     <aside class="sidebar">
       <img class="sidebar__user-icon" src="./img/user-icon.png" width="40" height="40" alt="">
@@ -18,19 +26,19 @@
         <p class="sidebar__header">Predefined lists</p>
         <div class="sidebar__element">
           <img class="sidebar__element-icon" src="./img/today-icon.png" alt="">
-          <div class="sidebar__element-name">Today</div>
+          <div class="sidebar__element-name group-today">Today</div>
         </div>
         <div class="sidebar__element">
           <img class="sidebar__element-icon" src="./img/nextWeek-icon.png" alt="">
-          <div class="sidebar__element-name">Next 7 days</div>
+          <div class="sidebar__element-name group-next">Next 7 days</div>
         </div>
-        <div class="sidebar__element">
+        <div class="sidebar__element group-inbox">
           <img class="sidebar__element-icon" src="./img/inbox-icon.png" alt="">
           <div class="sidebar__element-name">Inbox</div>
         </div>
       </section>
       <section class="sidebar__user-list">
-        <p class="sidebar__header">User lists</p>
+        <p class="sidebar__header user-list">User lists</p>
         <div class="sidebar__element">
           <img class="sidebar__element-icon" src="./img/userList-icon.png" alt="">
           <div class="sidebar__element-name">Homework</div>

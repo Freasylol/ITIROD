@@ -2,7 +2,6 @@ let tasksListEl = [];
 let taskList = document.querySelector('.tasks-list');
 let curOptEl = 0;
 
-
 let globalUserId = localStorage.getItem("userId");
 console.log(globalUserId);
 
@@ -11,18 +10,25 @@ if (globalUserId === null) {
   window.location.href = 'http://localhost:8080/signInPage.html';
 }
 
+addTasksToTaskList();
+
+
+let inboxButton = document.querySelector('.group-inbox');
+inboxButton.addEventListener('click', () => {
+  taskList.innerHTML = '';
+  addTasksToTaskList();
+})
+
 let sidebarIcon = document.querySelector('.sidebar__user-icon');
 sidebarIcon.addEventListener('click', () => {
   localStorage.clear();
   window.location.href = 'http://localhost:8080/signInPage.html';
 }) 
 
-addTasksToTaskList();
-
 async function showTaskList() {
   taskList.innerHTML = '';
   tasksListEl.forEach((el) => {
-    addTaskElement(el.priority, el.name);
+    addTaskElement(el.priority, el.name, el.is_completed, el.is_favorite, el.task_group_id, el.user_id);
   })
 }
 
@@ -463,3 +469,41 @@ addTaskBtn.addEventListener("click", () => {
   tasksListEl.push(taskListElement);
   
 });
+
+// Taskgroup modal
+// получаем элементы из DOM
+var taskGroupModal = document.querySelector('.taskgroup-modal');
+var closeButton = document.querySelector('.taskgroup__close');
+let openButton = document.querySelector('.user-list');
+
+// функция для показа модального окна
+function showModal() {
+  taskGroupModal.style.display = 'block';
+}
+
+// функция для скрытия модального окна
+function hideModal() {
+  taskGroupModal.style.display = 'none';
+}
+
+// закрытие модального окна по клику на крестик
+closeButton.addEventListener('click', hideModal);
+
+let createButton = document.querySelector('.taskgroup-modal__create-btn');
+
+createButton.addEventListener('click', () => {
+  let modalInput = document.querySelector('.taskgroup-modal__content input');
+  console.log(modalInput.value);
+  console.log('bebra');
+})
+
+// закрытие модального окна при клике вне его области
+window.addEventListener('click', function(event) {
+  if (event.target == taskGroupModal) {
+    hideModal();
+  }
+});
+
+openButton.addEventListener('click', function(event) {
+  showModal();
+})
