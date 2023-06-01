@@ -1,8 +1,8 @@
 const db = require('../db');
 // const axios = require('axios');
 // const fetch = require("node-fetch");
-// const fetch = require("node-fetch");
 const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
 
 // var myHeaders = new fetch.Headers();
 
@@ -35,6 +35,43 @@ class UsersController {
     const id  = req.params.id;
     const deletedUser = await db.query(`DELETE FROM users WHERE id = $1`, [id]);
     res.json('user Deleted');
+  }
+
+  async registration(req, res, next) {
+    const {username, password, email} = req.body;
+    let candidate = await db.query(`SELECT * FROM users WHERE email = $1`, [email]);
+    if (candidate.rows.length !== 0) {
+      return res.json('Error! User with that email exists');
+    }
+    const newUser = await db.query(`INSERT INTO users(username, password, email) VALUES($1, $2, $3);`, [username, password, email]);
+    // let token = jwt.sign({id: newUser.id, email, password},
+    // 'secretBebra',
+    // {expiresIn: '24h'}
+    // );
+    let response = {username: candidate.username, userId: candidate.id, isAuth: true};
+
+    return res.json(response);
+  }
+
+  async login(req, res) {
+    const {email, password} = req.body;
+    let user = await db.query(`SELECT * FROM users WHERE email = $1`, [email]);
+    if (user.rows.length === 0) {
+      return res.json('Error! User with that email not found');
+    }
+    if (password != user.rows[0].password) {
+      return res.json('Error! Wrong password');
+    }
+    // let token = jwt.sign({id: user.id, email, password},
+    //   'secretBebra',
+    //   {expiresIn: '24h'}
+    //   );
+    let response = {username: user.rows[0].username, userId: user.rows[0].id, isAuth: true};
+    return res.json(user.rows[0]);
+  }
+
+  async check (req, res) {
+    res.json({message: "User authorized"})
   }
 
   // async sendEmail(req, res) {

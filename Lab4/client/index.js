@@ -2,6 +2,15 @@ let tasksListEl = [];
 let taskList = document.querySelector('.tasks-list');
 let curOptEl = 0;
 
+// localStorage.clear();
+let userId = localStorage.getItem("userId");
+console.log(userId);
+
+if (userId === null) {
+  console.log('user not authorized');
+  window.location.href = 'http://localhost:8080/signInPage.html';
+}
+
 addTasksToTaskList();
 
 async function showTaskList() {
@@ -106,6 +115,7 @@ const createNewTaskElement = async (priorityArg, taskTextArg, isCompletedArg, is
   taskListOptions = document.createElement("img");
   taskListOptions.className = `task-list__options options`;
   taskListOptions.src = "./img/options-icon.png";
+  taskListOptions.classList.add(`options-${taskRectangles.length}`)
 
   taskListOptionsMenu = document.createElement("ul");
   taskListOptionsMenu.className = "task-list__options-menu";

@@ -1,3 +1,5 @@
+// localStorage.setItem('bebra', '123')
+
 async function checkForm() {
   event.preventDefault();
   var input1 = document.querySelector(".password-input").value;
@@ -22,7 +24,7 @@ async function createUser() {
     password: inputs[2].value
   }
 
-  let result = await fetch('http://localhost:8080/users',  {
+  let result = await fetch('http://localhost:8080/users/reg',  {
       method: 'POST',
       headers: {
       'Content-Type': 'application/json',
@@ -40,5 +42,10 @@ async function createUser() {
   .catch(error => console.log(error))
   
   usersArr = await result;
+  if (usersArr.id !== null) {
+    localStorage.setItem('userId', usersArr.id);
+    window.location.href = 'http://localhost:8080';
+  }
+ 
   return usersArr
 }
